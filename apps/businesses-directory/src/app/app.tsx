@@ -3,10 +3,11 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 import styles from './app.module.scss';
 
-import { ReactComponent as Logo } from './logo.svg';
+import logo from './../assets/images/logo-social.png'
 
 import BusinessView from './pages/business-view/business-view';
 import BusinessesListing from './pages/businesses-listing/businesses-listing';
+import { Container } from '@mui/material';
 
 
 export function App() {
@@ -15,14 +16,16 @@ export function App() {
       <div className={styles.app}>
         <header className="flex">
           <Link to="/">
-            <Logo width="75" height="75" />
+            <img id="site-logo" src={logo} alt="business directory logo" />
           </Link>
         </header>
         <main>
-          <Routes>
-            <Route path="/" element={<BusinessesListing />} />
-            <Route path="business/:businessId" element={<BusinessView />} />
-          </Routes>
+          <Container>
+            <Routes>
+              <Route path="/" element={<BusinessesListing />} />
+              <Route path="business/:businessId" element={<BusinessView />} />
+            </Routes>
+          </Container>
         </main>
       </div>
     </BrowserRouter>

@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@dev-ocean/ui": ["libs/ui/src/index.ts"]
+      "@dev-ocean/ui": ["libs/ui/src/index.ts"],
+      "@dev-ocean/api-types": ["libs/api-types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

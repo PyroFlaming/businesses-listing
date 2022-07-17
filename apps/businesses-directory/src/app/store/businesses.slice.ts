@@ -1,3 +1,4 @@
+import { BusinessType } from '@dev-ocean/api-types';
 import {
   createAsyncThunk,
   createEntityAdapter,
@@ -9,19 +10,12 @@ import {
 
 export const BUSINESSES_FEATURE_KEY = 'businesses';
 
-/*
- * Update these interfaces according to your requirements.
- */
-export interface BusinessesEntity {
-  id: number;
-}
-
-export interface BusinessesState extends EntityState<BusinessesEntity> {
+export interface BusinessesState extends EntityState<BusinessType> {
   loadingStatus: 'not loaded' | 'loading' | 'loaded' | 'error';
   error: string;
 }
 
-export const businessesAdapter = createEntityAdapter<BusinessesEntity>();
+export const businessesAdapter = createEntityAdapter<BusinessType>();
 
 /**
  * Export an effect using createAsyncThunk from
@@ -41,19 +35,19 @@ export const businessesAdapter = createEntityAdapter<BusinessesEntity>();
  * ```
  */
 export const fetchBusinesses = createAsyncThunk(
-  'businesses/fetchStatus',
-  async (_, thunkAPI) => {
-    /**
-     * Replace this with your custom fetch call.
-     * For example, `return myApi.getBusinessess()`;
-     * Right now we just return an empty array.
-     */
-    return Promise.resolve([]);
+  'businesses/fetchBusinesses',
+  async () => {
+    const response = await fetch(
+      'https://feinterviewtask.azurewebsites.net/b/6231abada703bb67492d2b8f'
+    ).then((response) => response.json());
+
+    return response;
   }
 );
 
 export const initialBusinessesState: BusinessesState = businessesAdapter.getInitialState(
   {
+    // businesses: [],
     loadingStatus: 'not loaded',
     error: null,
   }
@@ -65,7 +59,7 @@ export const businessesSlice = createSlice({
   reducers: {
     add: businessesAdapter.addOne,
     remove: businessesAdapter.removeOne,
-    // ...
+    //...
   },
   extraReducers: (builder) => {
     builder
@@ -74,7 +68,7 @@ export const businessesSlice = createSlice({
       })
       .addCase(
         fetchBusinesses.fulfilled,
-        (state: BusinessesState, action: PayloadAction<BusinessesEntity[]>) => {
+        (state: BusinessesState, action: PayloadAction<BusinessType[]>) => {
           businessesAdapter.setAll(state, action.payload);
           state.loadingStatus = 'loaded';
         }
@@ -125,7 +119,11 @@ export const businessesActions = businessesSlice.actions;
  *
  * See: https://react-redux.js.org/next/api/hooks#useselector
  */
-const { selectAll, selectEntities } = businessesAdapter.getSelectors();
+const {
+  selectAll,
+  selectEntities,
+  selectById,
+} = businessesAdapter.getSelectors();
 
 export const getBusinessesState = (rootState: unknown): BusinessesState =>
   rootState[BUSINESSES_FEATURE_KEY];
@@ -139,3 +137,15 @@ export const selectBusinessesEntities = createSelector(
   getBusinessesState,
   selectEntities
 );
+
+export const selectBusinessById = (id) => {
+  return createSelector(getBusinessesState, (state) => selectById(state, id));
+};
+
+export const selectNearByBusinesses = (city) => {
+  return createSelector(selectAllBusinesses, (state: BusinessType[]) => {
+    return state.filter((business) => {
+      return business?.address?.city === city;
+    });
+  });
+};

@@ -2,16 +2,24 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #f8f8f8;
 }
 
 .app :global(header) {
-  background-color: #143055;
-  color: white;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px -2px #000000;
   padding: 5px;
-  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app :global(header #site-logo) {
+  height: 50px;
 }
 
 .app :global(main) {
   flex: 1;
   min-height: 0;
+  overflow-y: auto;
 }

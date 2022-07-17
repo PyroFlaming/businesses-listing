@@ -1,0 +1,17 @@
+.businessesListingContent {
+  padding-top: 50px;
+
+  :global {
+    .business-item {
+      cursor: pointer;
+    }
+
+    .business-header {
+        color: rgb(236, 76, 236);
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+
+  }
+}

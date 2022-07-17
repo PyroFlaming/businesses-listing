@@ -1,0 +1,15 @@
+.businessView {
+  padding-top: 50px;
+
+  :global {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nearby-place-item {
+      cursor: pointer;
+      margin-bottom: 5px;
+    }
+  }
+}
